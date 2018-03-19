@@ -3,8 +3,8 @@
 }
 
 #map {
-  height: 75%;
-  width: 50%;
+  height: 480px;
+  width: 640px;
   margin-top: 20px;
 }
 /* Optional: Makes the sample page fill the window. */
