@@ -43,12 +43,27 @@ function loadMap(){
 
         //total flights
         airport.totalflights = (airport.aop + airport.dop);
-
-        //set icon color
-        airport.icon='green';
+        console.log(airport.totalflights);
 
         //set icon size
-        airport.iconsize = new google.maps.Size(32,32);
+        if(airport.totalflights > 10000){
+            airport.iconsize = new google.maps.Size(48,48);
+        }else if((airport.totalflights >= 1000)&&(airport.totalflights <=10000)){
+            airport.iconsize = new google.maps.Size(32,32);
+        }else if(airport.totalflights<1000){
+            airport.iconsize = new google.maps.Size(16,16);
+        }
+        //set icon color
+        if(airport.totalper >= 95){
+            airport.icon='green';
+        }else if ((airport.totalper >= 80)&& (airport.totalper < 95)){
+            airport.icon='yellow'
+        }else if ((airport.totalper >= 70)&& (airport.totalper < 80)){
+            airport.icon='orange'
+        }else{
+            airport.icon='red'
+        }
+
 
         //marker creation
         var newMarker = this.addMarker(airport);
@@ -68,11 +83,12 @@ function addMarker(airport){
         // map: map,
 
         icon: {
-            url: './img/airplane-green.png',
+            url: './img/airplane-'+ airport.icon+'.png',
             // size: new google.maps.Size(32,32),
             // origin: new google.maps.Point(0,0),
             // anchor: new google.maps.Point(16,32),
-            scaledSize: new google.maps.Size(32,32)
+            scaledSize: airport.iconsize,
+            
 
         },
 
@@ -133,7 +149,7 @@ function addInfoWindow(marker){
         infoWindow.close();
         
         //Set the new content
-        infoWindow.setContent(content);        
+        infoWindow.setContent(content);
         
         //Open the infowindow
         infoWindow.open(map,marker);
