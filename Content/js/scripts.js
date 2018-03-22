@@ -27,7 +27,13 @@ function loadMap(){
 
     
     map = new google.maps.Map(document.getElementById("map"),mapOptions);
-    addMarker()
+    // addMarker()
+
+    var newMarker = this.addMarker();
+    addInfoWindow(newMarker)
+
+    //activates everything based on click event, but can be adjusted for any event i think.
+    google.maps.event.trigger(newMarker, 'click')
 }
 
 function addMarker(){
@@ -44,7 +50,27 @@ function addMarker(){
             // anchor: new google.maps.Point(16,32),
             scaledSize: new google.maps.Size(32,32)
 
-        }
+        },
+
+        //MAKES THE ICON BOUNCE
+        // animation: google.maps.Animation.BOUNCE
+
+        //MAKES ICON CLICKABLE FOR AN EVENT
+        clickable: true,
+
+        //MAKES ICON DRAGGABLE
+        draggable: true,
+
+        //TAKES OUT CROSSHAIR
+        crossOnDrag: false,
+
+        opacity: 0.5,
+
+        //CREATES HOVER TAG
+        title: "THIS IS JUST A TEST",
+
+        //SETS THE ZINDEX IF MULTIPLE MARKER TYPES ARE BEING DISPLAYED
+        zindex: 1
 
     })
 
@@ -63,6 +89,27 @@ function addMarker(){
 
 
     return marker;
+}
+
+function addInfoWindow(marker){
+
+    //CSS can be applied to contentString
+    var contentString = '<h1 class="title">place in VA</p>'
+
+    var infoWindow = new google.maps.InfoWindow({
+        content: contentString,
+
+        disableAutoPan: false,
+
+        maxWidth: 300,
+
+        zIndex: 1,
+
+    })
+
+    google.maps.event.addListener(marker, 'click', ()=>{
+        infoWindow.open(map,marker)
+    })
 }
 
 google.maps.event.addDomListener(window, "load", loadMap());
